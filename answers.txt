@@ -1,0 +1,8 @@
+Q1. Briefly describe the conceptual approach you chose! What are the trade-offs?
+Ans. So the thing worth mentioning is if the no of different signals are smaller compared to the total no of signal received its better to use dictionary for rules matching as it can be O(1) for single signal and thats what i have used. A dict of all signals to as keys (ATL1, ATL2...), then type as keys so depending on test signals type only compare with rules of that type, then array of rules. Used keywords to parse out rules from sentences. Created interactive CLI to do all tasks. Stored rules in .txt file.
+
+Q2. What's the runtime performance? What is the complexity? Where are the bottlenecks?
+Ans. The test file gets checked in around 2 milliseconds on macbook pro. Time complexity is O(n), n being the number of test signals. If i exclude the date part the time taken is 0.4 ms which is 0.1 ms greater than running an empty for loop, so its quite optimized, Mathcing dates takes time because we have to dynamically define the value of yesterday/ today/ future and thus cant store fixed values in rules.
+
+Q3. If you had more time, what improvements would you make, and in what order of priority?
+Ans. If i had more time I would have improved my parsing server by combining the rules of one time and storing them instead of doing it while comparing. Also would have used database for rules for faster and more reliable processing.

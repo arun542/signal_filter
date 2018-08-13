@@ -1,0 +1,5 @@
+ATL2 value should never be LOW
+ATL3 should not be in future
+ATL1 should not rise above 100
+ATL1 should not fall below 90
+ATL3 should be before yesterday
