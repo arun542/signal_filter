@@ -1,5 +1,6 @@
 import os, datetime, time
 
+#### check for any floating point number in string
 def check_for_numbers(words):
 	for word in words:
 		try:
@@ -9,6 +10,7 @@ def check_for_numbers(words):
 			continue
 	return None
 
+#### checks for any date, time or datetime obj in string
 def check_for_date(words):
 	date = None 
 	time = None
@@ -38,7 +40,7 @@ def check_for_date(words):
 
 	return datetime_string, date_type
 
-
+######## Rules Class ###########
 class Rules(object):
 	def __init__(self, path=None):
 		self.defualt_path = "rules.txt"
@@ -47,6 +49,41 @@ class Rules(object):
 		self.parsed_rules = []
 		self.rule_file_path = None
 		self.create_rules_dict(path)
+
+	def update_rule_path(self,path):
+		try:
+			file_obj = open(path,"r")
+			self.rule_file_path = path
+			self.rules_text = []
+			self.rules_dict = {}
+			self.parsed_rules = []
+
+			all_rule_strings = file_obj.read().splitlines()
+			all_rules = {}
+			for rule_string in all_rule_strings:
+				try:
+					parsed_rule = self.parse_rule_string(rule_string)
+					if parsed_rule is not None:
+						if parsed_rule["signal"] in all_rules.keys():
+							if parsed_rule["type"] in all_rules[parsed_rule["signal"]].keys():
+								all_rules[parsed_rule["signal"]][parsed_rule["type"]] = all_rules[parsed_rule["signal"]][parsed_rule["type"]] + [{"value":parsed_rule["value"],"comparison":parsed_rule["comparison"]}]
+							else:
+								all_rules[parsed_rule["signal"]][parsed_rule["type"]] = [{"value":parsed_rule["value"],"comparison":parsed_rule["comparison"]}]
+						else:
+							all_rules[parsed_rule["signal"]] = {}
+							all_rules[parsed_rule["signal"]][parsed_rule["type"]] = [{"value":parsed_rule["value"],"comparison":parsed_rule["comparison"]}]
+					
+						self.rules_text.append(rule_string)
+						self.parsed_rules.append(parsed_rule)
+
+				except:
+					print "error in parsing rule "+rule_string
+
+			self.rules_dict = all_rules
+			print "Rules file updated"
+		except:
+			print path, " file doesnot exist"
+
 
 	def create_rules_dict(self, path=None):
 		try:
@@ -142,7 +179,7 @@ class Rules(object):
 		except:
 			print "Not valid rule ID"
 
-
+	######### parses rule to dict form from string ######
 	def parse_rule_string(self,rule_string, contradiction_flag = True):
 		split_string = rule_string.split(" ")
 		signal = split_string[0]
@@ -166,6 +203,7 @@ class Rules(object):
 			print "Could not parse rule "+rule_string
 			return None
 
+	########### GIven string of rules returns the value, comparison string and type of rule #########
 	def get_value_type(self,words):
 		value = None
 		rule_type = None
@@ -276,19 +314,21 @@ class Rules(object):
 						rule_type = "dateobj"
 						value = "future"
 
-					if "not" in words or "never" or "past" in words:
+					if "not" in words or "never" in words or "past" in words:
 						if "after" in words:
 							comparison = "<="
+							
 
-						if "before" in words or "till" in words or "untill" in words:
+						elif "before" in words or "till" in words or "untill" in words:
 							comparison = ">="
+							print words
 						else:
 							comparison = "not in"
 					else:
 						if "after" in words:
 							comparison = ">"
 
-						if "before" in words or "till" in words or "untill" in words:
+						elif "before" in words or "till" in words or "untill" in words:
 							comparison = "<"
 						else:
 							comparison = "in"
