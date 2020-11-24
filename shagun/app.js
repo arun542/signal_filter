@@ -5,9 +5,6 @@ new Vue({
     events: []
   },
 
-
-  
-
   ready: function () {
     this.fetchEvents();
   },
