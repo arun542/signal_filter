@@ -1,6 +1,5 @@
 new Vue({
   el: '#events',
-
   data: {
     event: { title: '', detail: '', date: '' },
     events: []
