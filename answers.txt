@@ -6,3 +6,5 @@ Ans. The test file gets checked in around 2 milliseconds on macbook pro. Time co
 
 Q3. If you had more time, what improvements would you make, and in what order of priority?
 Ans. If i had more time I would have improved my parsing server by combining the rules of one time and storing them instead of doing it while comparing. Also would have used database for rules for faster and more reliable processing.
+
+what is this
