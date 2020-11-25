@@ -10,7 +10,7 @@ args = parser.parse_args()
 def run_test_on_signals(file_path, rules):
 	try:
 		json_data = json.load(open(file_path))
-		print "Following signals didnot pass the corresponding criteria"
+		print "Following signals didnot pass the corresponding criteria good code"
 		time_start = datetime.datetime.now()
 		for signal_data in json_data:
 			##### check for any rules related to signal
